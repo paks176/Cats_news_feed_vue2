@@ -1,22 +1,31 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <addPostForm></addPostForm>
+    <div v-for="cat in getAllCats" :key="cat.id" :id="cat.id" class="cat-post">
+        <img style="width:auto; max-height:300px" :src="cat.url" :alt="cat.id">
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
+import {mapGetters, mapActions} from 'vuex';
+import addPostForm from './components/addPostForm.vue'
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    addPostForm,
+  },
+  methods: mapActions(['fetchCats']),
+  computed: mapGetters(['getAllCats']),
+  
+  mounted() {
+    this.fetchCats();
   }
 }
 </script>
 
-<style>
+<style scoped>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -24,5 +33,15 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.cat-post {
+  border: 1px solid gray;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+img {
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 </style>
